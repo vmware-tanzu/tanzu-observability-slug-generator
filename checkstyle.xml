@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<module name="Checker">
+    <property name="charset" value="UTF-8"/>
+    <property name="severity" value="error" />
+
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
+
+    <module name="TreeWalker">
+        <module name="UnusedImports"/>
+        <module name="AvoidStarImport"/>
+        <module name="ImportOrder">
+            <property name="separatedStaticGroups" value="true"/>
+            <property name="groups" value="
+            com.google,android,antenna,antlr,ar,asposewobfuscated,asquare,atg,au,beaver,bibtex,bmsi,bsh,ccl,cern,
+            ChartDirector,checkers,com,COM,common,contribs,corejava,cryptix,cybervillains,dalvik,danbikel,de,EDU,eg,eu,
+            examples,fat,fit,fitlibrary,fmpp,freemarker,gnu,groovy,groovyjarjarantlr,groovyjarjarasm,hak,hep,ie,
+            imageinfo,info,it,jal,Jama,japa,japacheckers,jas,jasmin,javancss,javanet,javassist,javazoom,java_cup,jcifs,
+            jetty,JFlex,jj2000,jline,jp,JSci,jsr166y,junit,jxl,jxxload_help,kawa,kea,libcore,libsvm,lti,memetic,mt,mx4j,
+            net,netscape,nl,nu,oauth,ognl,opennlp,oracle,org,penn2dg,pennconverter,pl,prefuse,proguard,repackage,scm,se,
+            serp,simple,soot,sqlj,src,ssa,sun,sunlabs,tcl,testdata,testshell,testsuite,twitter4j,uk,ViolinStrings,weka,
+            wet,winstone,woolfel,wowza,java,javax,*"/>
+            <property name="staticGroups" value="*" />
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="bottom"/>
+        </module>
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+            <property name="allowMultipleEmptyLines" value="false"/>
+        </module>
+    </module>
+
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="message" value="Trailing whitespace"/>
+    </module>
+</module>
