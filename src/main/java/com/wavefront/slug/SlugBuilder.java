@@ -143,11 +143,14 @@ public interface SlugBuilder {
   SlugBuilder addFocusedHost(String hostName);
 
   /**
-   * Build the hash portion that represents the chart. The result needs to be concatenated with the
-   * the actual page itself (e.g. http://stg.sunnylabs.com/chart) in order to yield the final query.
-   * The returned value includes the "#" tag and will be URL encoded already.
+   * Build the chart slug.
    *
-   * @return The hash portion that represents the chart.
+   * @return The chart slug.
    */
   String build();
+
+  /**
+   * Build and encoded the chart slug to be used in the chart url.
+   */
+  String buildAndEncode();
 }

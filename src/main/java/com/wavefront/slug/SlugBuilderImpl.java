@@ -144,11 +144,16 @@ public class SlugBuilderImpl implements SlugBuilder {
     Preconditions.checkState(sources.size() > 0, "must have at least one chart source");
 
     try {
-      String result = mapper.writeValueAsString(toSlugObject());
-      return "#" + URLEncoder.encode(result, StandardCharsets.UTF_8).replace("+", "%20");
+      return mapper.writeValueAsString(toSlugObject());
     } catch (JsonProcessingException e) {
       throw Throwables.propagate(e);
     }
+  }
+
+  @Override
+  public String buildAndEncode() {
+    String slug = build();
+    return URLEncoder.encode(slug, StandardCharsets.UTF_8);
   }
 
   /**
