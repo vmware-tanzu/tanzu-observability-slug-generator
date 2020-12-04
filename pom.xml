@@ -2,15 +2,61 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
 
     <groupId>com.wavefront</groupId>
-    <artifactId>slug</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>slug-generator</artifactId>
+    <version>1.0-RC1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
     <name>RISON Slug Generator</name>
+    <description>A library to generate RISON slugs for Wavefront charts</description>
+    <url>http://www.wavefront.com</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Yutian Wu</name>
+            <email>wyutian@vmware.com</email>
+            <organization>Wavefront</organization>
+            <organizationUrl>http://www.wavefront.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:wavefrontHQ/slugRisonGenerator.git</connection>
+        <developerConnection>scm:git:git@github.com:wavefrontHQ/slugRisonGenerator.git</developerConnection>
+        <url>git@github.com:wavefrontHQ/slugRisonGenerator.git</url>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>sunnylabs-releases</id>
+            <name>Release Repository</name>
+            <url>https://repo.wavefront.com/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>sunnylabs-snapshots</id>
+            <name>Snapshot Repository</name>
+            <url>https://repo.wavefront.com/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
+        <nexus.upload.phase>none</nexus.upload.phase>
+
+        <!-- jdk 11 can be used for building -->
         <jdk.version>11</jdk.version>
+        <javadoc.sdk.version>8</javadoc.sdk.version>
+
+        <!-- Force encoding to UTF-8 (bug in OS X) -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <lombok.version>1.18.2</lombok.version>
         <guava.version>29.0-jre</guava.version>
@@ -23,12 +69,15 @@
         <junit.bom.version>5.7.0</junit.bom.version>
         <assertj.core.version>3.18.0</assertj.core.version>
 
-        <!-- maven plugins-->
-        <checkstyle.version>8.26</checkstyle.version>
-        <maven.plugin.checkstyle.version>3.1.0</maven.plugin.checkstyle.version>
+        <!-- maven plugins -->
+        <checkstyle.version>8.37</checkstyle.version>
         <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
-        <maven.plugin.surefire.version>2.22.2</maven.plugin.surefire.version>
-        <maven.plugin.jacoco.version>0.8.5</maven.plugin.jacoco.version>
+        <maven.plugin.enforcer.version>3.0.0-M3</maven.plugin.enforcer.version>
+        <maven.plugin.checkstyle.version>3.1.1</maven.plugin.checkstyle.version>
+        <maven.plugin.surefire.version>3.0.0-M5</maven.plugin.surefire.version>
+        <maven.plugin.jacoco.version>0.8.6</maven.plugin.jacoco.version>
+        <maven.plugin.release.version>3.0.0-M1</maven.plugin.release.version>
+        <maven.plugin.deploy.version>3.0.0-M1</maven.plugin.deploy.version>
     </properties>
 
     <dependencyManagement>
@@ -74,6 +123,12 @@
             <groupId>com.bazaarvoice.jackson</groupId>
             <artifactId>rison</artifactId>
             <version>${jackson.rison.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--test dependency-->
         <dependency>
@@ -105,6 +160,24 @@
                         <arg>jdk.unsupported</arg>
                     </compilerArgs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven.plugin.enforcer.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <configuration>
+                            <rules>
+                                <DependencyConvergence />
+                            </rules>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -142,7 +215,7 @@
                     <forkCount>1.0C</forkCount>
                     <reuseForks>true</reuseForks>
                     <rerunFailingTestsCount>3</rerunFailingTestsCount>
-                    <argLine>${argLine} -Xmx2G --illegal-access=permit</argLine>
+                    <argLine>@{argLine} -Xmx2G --illegal-access=permit</argLine>
                     <systemPropertyVariables>
                         <org.slf4j.simpleLogger.defaultLogLevel>WARN
                         </org.slf4j.simpleLogger.defaultLogLevel>
@@ -194,6 +267,44 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven.plugin.release.version}</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven.plugin.deploy.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>nexus-upload</id>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                        <phase>${nexus.upload.phase}</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>nexus</id>
+            <properties>
+                <nexus.upload.phase>deploy</nexus.upload.phase>
+            </properties>
+        </profile>
+    </profiles>
 </project>
