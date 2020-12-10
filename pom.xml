@@ -78,6 +78,8 @@
         <maven.plugin.jacoco.version>0.8.6</maven.plugin.jacoco.version>
         <maven.plugin.release.version>3.0.0-M1</maven.plugin.release.version>
         <maven.plugin.deploy.version>3.0.0-M1</maven.plugin.deploy.version>
+        <javadoc.sdk.version>11</javadoc.sdk.version>
+        <maven.plugin.javadoc.version>3.2.0</maven.plugin.javadoc.version>
     </properties>
 
     <dependencyManagement>
@@ -264,6 +266,24 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.plugin.javadoc.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <doclint>none</doclint>
+                            <release>${javadoc.sdk.version}</release>
+                            <source>${javadoc.sdk.version}</source>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
