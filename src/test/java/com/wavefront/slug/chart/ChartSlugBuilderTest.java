@@ -1,4 +1,4 @@
-package com.wavefront.slug;
+package com.wavefront.slug.chart;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -9,19 +9,19 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit test for {@link SlugBuilderImpl}.
+ * Unit test for {@link ChartSlugBuilderImpl}.
  * <p>
- * Mainly test for RISON Serialization of {@link Slug}
+ * Mainly test for RISON Serialization of {@link ChartSlug}
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */
-public class SlugBuilderTest {
+public class ChartSlugBuilderTest {
 
-  private SlugBuilderImpl builder;
+  private ChartSlugBuilder builder;
 
   @BeforeEach
   public void setup() {
-    this.builder = new SlugBuilderImpl();
+    this.builder = ChartSlugBuilders.chartSlugBuilder();
   }
 
   @Test

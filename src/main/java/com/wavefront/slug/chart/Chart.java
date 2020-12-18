@@ -1,4 +1,4 @@
-package com.wavefront.slug;
+package com.wavefront.slug.chart;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /**
- * Internal POJO represents a a chart with RISON compatible property name, used in {@link Slug}.
+ * Internal POJO represents a a chart with RISON compatible property name, used in {@link ChartSlug}.
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */

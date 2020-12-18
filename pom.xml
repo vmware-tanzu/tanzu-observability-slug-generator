@@ -258,6 +258,9 @@
                                     </limits>
                                 </rule>
                             </rules>
+                            <includes>
+                                <include>com.wavefront.slug.chart</include>
+                            </includes>
                         </configuration>
                     </execution>
                     <execution>

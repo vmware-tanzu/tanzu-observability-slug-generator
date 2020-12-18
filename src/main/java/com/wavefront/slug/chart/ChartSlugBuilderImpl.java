@@ -1,4 +1,4 @@
-package com.wavefront.slug;
+package com.wavefront.slug.chart;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */
-public class SlugBuilderImpl implements SlugBuilder {
+class ChartSlugBuilderImpl implements ChartSlugBuilder {
 
   private String customerId;
   private String id = "chart";
@@ -38,74 +38,74 @@ public class SlugBuilderImpl implements SlugBuilder {
   private final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
 
   @Override
-  public SlugBuilderImpl setCustomerId(String customerId) {
+  public ChartSlugBuilderImpl setCustomerId(String customerId) {
     this.customerId = customerId;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setId(String id) {
+  public ChartSlugBuilderImpl setId(String id) {
     this.id = id;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setName(String name) {
+  public ChartSlugBuilderImpl setName(String name) {
     this.name = name;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setStart(long startMillis) {
+  public ChartSlugBuilderImpl setStart(long startMillis) {
     this.start = startMillis;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setStart(ReadableInstant instant) {
+  public ChartSlugBuilderImpl setStart(ReadableInstant instant) {
     this.start = instant.getMillis();
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setEnd(long endMillis) {
+  public ChartSlugBuilderImpl setEnd(long endMillis) {
     this.end = endMillis;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setEnd(ReadableInstant instant) {
+  public ChartSlugBuilderImpl setEnd(ReadableInstant instant) {
     this.end = instant.getMillis();
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setGranularity(String granularity) {
+  public ChartSlugBuilderImpl setGranularity(String granularity) {
     this.granularity = granularity;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setCompare(String compare) {
+  public ChartSlugBuilderImpl setCompare(String compare) {
     this.compare = compare;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setUnits(String units) {
+  public ChartSlugBuilderImpl setUnits(String units) {
     this.units = units;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl setBase(int base) {
+  public ChartSlugBuilderImpl setBase(int base) {
     Preconditions.checkArgument(base >= 1, "base must be >= 1");
     this.base = base;
     return this;
   }
 
   @Override
-  public SlugBuilderImpl addSource(String name, String query) {
+  public ChartSlugBuilderImpl addSource(String name, String query) {
     this.sources.add(ChartSource.builder()
         .queryName(name)
         .query(query)
@@ -114,7 +114,7 @@ public class SlugBuilderImpl implements SlugBuilder {
   }
 
   @Override
-  public SlugBuilderImpl addSource(String name, String query, boolean disabled) {
+  public ChartSlugBuilderImpl addSource(String name, String query, boolean disabled) {
     this.sources.add(ChartSource.builder()
         .queryName(name)
         .query(query)
@@ -124,14 +124,14 @@ public class SlugBuilderImpl implements SlugBuilder {
   }
 
   @Override
-  public SlugBuilderImpl addSource(String name, String query, boolean disabled, String queryBuilderSerialization,
-                                   boolean queryBuilderEnabled) {
+  public ChartSlugBuilderImpl addSource(String name, String query, boolean disabled, String queryBuilderSerialization,
+                                        boolean queryBuilderEnabled) {
     this.sources.add(new ChartSource(name, query, disabled, queryBuilderSerialization, queryBuilderEnabled));
     return this;
   }
 
   @Override
-  public SlugBuilderImpl addFocusedHost(String hostName) {
+  public ChartSlugBuilderImpl addFocusedHost(String hostName) {
     this.focusedHosts.add(hostName);
     return this;
   }
@@ -144,7 +144,7 @@ public class SlugBuilderImpl implements SlugBuilder {
     Preconditions.checkState(sources.size() > 0, "must have at least one chart source");
 
     try {
-      return mapper.writeValueAsString(toSlugObject());
+      return mapper.writeValueAsString(toChartSlugObject());
     } catch (JsonProcessingException e) {
       throw Throwables.propagate(e);
     }
@@ -157,12 +157,12 @@ public class SlugBuilderImpl implements SlugBuilder {
   }
 
   /**
-   * mapper converts current instance to a {@link Slug}.
+   * mapper converts current instance to a {@link ChartSlug}.
    *
-   * @return {@link Slug} which used in serialization.
+   * @return {@link ChartSlug} which used in serialization.
    */
-  private Slug toSlugObject() {
-    return Slug.builder().
+  private ChartSlug toChartSlugObject() {
+    return ChartSlug.builder().
         customerId(this.customerId).
         chart(Chart.builder().
             id(this.id).

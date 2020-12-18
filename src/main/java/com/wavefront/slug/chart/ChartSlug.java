@@ -1,4 +1,4 @@
-package com.wavefront.slug;
+package com.wavefront.slug.chart;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +17,7 @@ import lombok.Builder;
 @Builder
 @AllArgsConstructor
 @JsonPropertyOrder(alphabetic = true)
-class Slug {
+class ChartSlug {
   @JsonProperty("t")
   private final String customerId;
 
