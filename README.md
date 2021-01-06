@@ -55,15 +55,22 @@ The example given below creates the following slug:
 
 Example:
 ```java
-import com.wavefront.slug.SlugBuilderImpl;
-// Plain String
-// result: (c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
-String slug = new SlugBuilderImpl()
-    .setCustomerId("customer")
-    .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
-    .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
-    .addSource("source", "ts(metrics)")
-    .build();
+import com.wavefront.slug.SlugBuilders;
+
+class Main {
+    public static void main(String[] args) {
+        // Plain String
+        // result: (c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
+        String slug = SlugBuilders.chartSlugBuilder()
+            .setCustomerId("customer")
+            .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+            .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+            .addSource("source", "ts(metrics)")
+            .build();
+        // see the following steps
+        // ...
+    }
+}
 ```
 
 #### 3. Generate the Chart URL
@@ -72,14 +79,21 @@ generated in the previous step.
 ```java
 import javax.ws.rs.core.UriBuilder;
 import com.google.common.net.UrlEscapers;
-String baseUrl = UriBuilder.fromUri("https://mydomain.wavefront.com/chart").build().toString();
 
-// follow the Chart Slug section below to check how to generate a slug
-// java is bad at escaping url :)
-String escapedFragment = "#" + UrlEscapers.urlFragmentEscaper().escape(slug);
+class Main {
+    public  static void main(String[] args) {
+        // ...
+        // followed from  step 2 (Generate the Chart Slug)
+        String baseUrl = UriBuilder.fromUri("https://mydomain.wavefront.com/chart").build().toString();
 
-// result: https://mydomain.wavefront.com/chart#(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
-String fullUrl = baseUrl + escapedFragment;
+        // follow the Chart Slug section below to check how to generate a slug
+        // java is bad at escaping url :)
+        String escapedFragment = "#" + UrlEscapers.urlFragmentEscaper().escape(slug);
+
+        // result: https://mydomain.wavefront.com/chart#(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
+        String fullUrl = baseUrl + escapedFragment;
+    }
+}
 ```
 
 ## License
