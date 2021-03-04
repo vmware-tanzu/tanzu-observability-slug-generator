@@ -21,7 +21,7 @@ public class ChartSlugBuilderTest {
 
   @BeforeEach
   public void setup() {
-    this.builder = ChartSlugBuilders.chartSlugBuilder();
+    this.builder = ChartSlugBuilders.slugBuilder();
   }
 
   @Test

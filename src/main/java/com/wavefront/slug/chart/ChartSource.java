@@ -3,8 +3,7 @@ package com.wavefront.slug.chart;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import java.util.Objects;
+import com.wavefront.slug.filters.BooleanFilter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,18 +36,4 @@ class ChartSource {
   @JsonProperty("qbe")
   @Builder.Default
   private final boolean queryBuilderEnabled = false;
-
-  /**
-   * filter which filters out false boolean field, used to omit not-disabled field by default.
-   */
-  private static class BooleanFilter {
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-    @Override
-    public boolean equals(Object obj) {
-      if (obj == null) {
-        return true;
-      }
-      return Objects.equals(Boolean.FALSE, obj);
-    }
-  }
 }

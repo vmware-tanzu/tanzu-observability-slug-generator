@@ -16,11 +16,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
- * Builder for single slug object.
+ * Builder implementation for {@link ChartSlugBuilder} using
+ * {@link RisonFactory Jackson RISON Lib} (https://github.com/bazaarvoice/rison).
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */
 class ChartSlugBuilderImpl implements ChartSlugBuilder {
+
+  // RISON mapper to serialize into RISON format
+  private static final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
+
+  private final List<ChartSource> sources = Lists.newArrayList();
+  private final List<String> focusedHosts = Lists.newArrayList();
 
   private String customerId;
   private String id = "chart";
@@ -31,11 +38,6 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   private String compare = "off";
   private String units = null;
   private int base = 1;
-  private List<ChartSource> sources = Lists.newArrayList();
-  private List<String> focusedHosts = Lists.newArrayList();
-
-  // RISON mapper to serialize into RISON format
-  private final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
 
   @Override
   public ChartSlugBuilderImpl setCustomerId(String customerId) {
@@ -144,7 +146,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
     Preconditions.checkState(sources.size() > 0, "must have at least one chart source");
 
     try {
-      return mapper.writeValueAsString(toChartSlugObject());
+      return mapper.writeValueAsString(toChartSlug());
     } catch (JsonProcessingException e) {
       throw Throwables.propagate(e);
     }
@@ -161,7 +163,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
    *
    * @return {@link ChartSlug} which used in serialization.
    */
-  private ChartSlug toChartSlugObject() {
+  private ChartSlug toChartSlug() {
     return ChartSlug.builder().
         customerId(this.customerId).
         chart(Chart.builder().
