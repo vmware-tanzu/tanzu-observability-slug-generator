@@ -86,6 +86,7 @@ class DashboardSlugBuilderImpl implements DashboardSlugBuilder {
 
   @Override
   public DashboardSlugBuilder setSimpleDashboardVariable(String name, String value) {
+    // Jackson does not add the value into the serialized string if the value is null.
     DashboardVariable variable = DashboardVariable.builder().value(value).build();
     this.dashboardVariables.put(name, variable);
     return this;
@@ -93,14 +94,16 @@ class DashboardSlugBuilderImpl implements DashboardSlugBuilder {
 
   @Override
   public DashboardSlugBuilder setListDashboardVariable(String name, String selected) {
+    // Jackson does not add the value into the serialized string if the value is null.
     DashboardVariable variable = DashboardVariable.builder().selected(selected).build();
     this.dashboardVariables.put(name, variable);
     return this;
   }
 
   @Override
-  public DashboardSlugBuilder setDynamicDashboardVariable(String name) {
-    DashboardVariable variable = DashboardVariable.builder().selected(SELECTED_VARIABLE_PREFIX).build();
+  public DashboardSlugBuilder setDynamicDashboardVariable(String name, String value) {
+    // Jackson does not add the value into the serialized string if the value is null.
+    DashboardVariable variable = DashboardVariable.builder().value(value).build();
     this.dashboardVariables.put(name, variable);
     return this;
   }

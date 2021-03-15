@@ -82,11 +82,26 @@ public class DashboardSlugBuilderTest {
     String slug = builder.
         setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC)).
         setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC)).
-        setDynamicDashboardVariable("test").
+        setDynamicDashboardVariable("test", null).
         build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(s:Label)))";
+    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:()))";
+    String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
+    assertThat(slug).as(message).isEqualTo(expectedSlug);
+  }
+
+  @Test
+  @DisplayName("With dynamic dashboard variable")
+  public void testBuildWithDynamicVariableWithValue() throws Exception {
+    String slug = builder.
+        setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC)).
+        setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC)).
+        setDynamicDashboardVariable("test", "Test").
+        build();
+
+    // verify
+    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }

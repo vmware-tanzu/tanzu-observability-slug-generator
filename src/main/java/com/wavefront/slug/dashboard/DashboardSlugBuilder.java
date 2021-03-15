@@ -93,17 +93,25 @@ public interface DashboardSlugBuilder {
   DashboardSlugBuilder setCompare(String compare);
 
   /**
-   * Sets the value of a simple dashboard variable in the dashboard.
+   * Sets the value of a simple dashboard variable in the dashboard. Because a simple dashboard
+   * variable is used as a constant in Wavefront's dashboard, you hardly need to use this method.
    * <p>
-   * The name is the name that you defined when you create a dashboard variable, not the display name
-   * of the dashboard variable. You can get the name of the variable by hanging your cursor on your
-   * dashboard variable display name.
+   * There are three caveats when using this method:
    * <p>
-   * This is not a place to define a new dashboard variable, instead, it is a place to assign a value
-   * to the existing variable.
+   * 1. The name is the variable name you defined when you create a dashboard variable, not its
+   * display name. You can get the name of the variable by hovering your cursor over your dashboard
+   * variable display name.
+   * <p>
+   * 2. This is not a place to define a new dashboard variable. Instead, it is a place to assign a
+   * value to the existing variable.
+   * <p>
+   * 3. Slug builder won't check whether the value is valid or not. If the value does not match the
+   * original value defined in the dashboard, our frontend will use the value, leading to the
+   * charts loading issue.
    *
    * @param name                     Name of the dashboard variable (Not label)
-   * @param value                    the value of the variable.
+   * @param value                    Value of the variable. If it is null, it will use
+  the default one.
    * @return The builder.
    */
   DashboardSlugBuilder setSimpleDashboardVariable(String name, String value);
@@ -111,15 +119,22 @@ public interface DashboardSlugBuilder {
   /**
    * Sets the value of a list dashboard variable in the dashboard.
    * <p>
-   * The name is the name that you defined when you create a dashboard variable, not the display name
-   * of the dashboard variable. You can get the name of the variable by hanging your cursor on your
-   * dashboard variable display name.
+   * There are three caveats when using this method:
    * <p>
-   * This is not a place to define a new dashboard variable, instead, it is a place to assign a value
-   * to the existing variable.
+   * 1. The name is the variable name you defined when you create a dashboard variable, not its
+   * display name. You can get the name of the variable by hovering your cursor over your dashboard
+   * variable display name.
+   * <p>
+   * 2. This is not a place to define a new dashboard variable. Instead, it is a place to assign a
+   * value to the existing variable.
+   * <p>
+   * 3. Slug builder won't check whether the value is valid or not. If the value is not defined in
+   * the original list of values, our frontend redirects you to the dashboard using the default
+   * value for this variable.
    *
    * @param name                      Name of the dashboard variable (Not label).
-   * @param selected                  the selected value from the list of values.
+   * @param selected                  The selected value from the list of values. If it is null, it
+   *                                  will use the default one.
    * @return The builder.
    */
   DashboardSlugBuilder setListDashboardVariable(String name, String selected);
@@ -127,14 +142,25 @@ public interface DashboardSlugBuilder {
   /**
    * Sets the value of a list dashboard variable in the dashboard.
    * <p>
-   * The name is the name that you defined when you create a dashboard variable, not the display name
-   * of the dashboard variable. You can get the name of the variable by hanging your cursor on your
-   * dashboard variable display name.
+   * There are three caveats when using this method:
+   * <p>
+   * 1. The name is the variable name you defined when you create a dashboard variable, not its
+   * display name. You can get the name of the variable by hovering your cursor over your dashboard
+   * variable display name.
+   * <p>
+   * 2. This is not a place to define a new dashboard variable. Instead, it is a place to assign a
+   * value to the existing variable.
+   * <p>
+   * 3. Slug builder won't check whether the value is valid or not. If the value is not returned in
+   * the original query defined for this dynamic variable, our frontend redirects you to the
+   * dashboard with the default value of the dashboard variable.
    *
    * @param name                      Name of the dashboard variable (Not label).
+   * @param value                     Value of the dashboard variable. If it is null, it will use
+   *                                  the default one.
    * @return The builder.
    */
-  DashboardSlugBuilder setDynamicDashboardVariable(String name);
+  DashboardSlugBuilder setDynamicDashboardVariable(String name, String value);
 
   /**
    * Build the dashboard slug.
