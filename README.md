@@ -222,3 +222,13 @@ This code is under the [Apache Licence v2](LICENSE).
 ## How to Contribute
 * Reach out to us on our public [Slack channel](https://www.wavefront.com/join-public-slack).
 * If you run into any issues, let us know by creating a GitHub issue.
+
+### Contributor License Agreement (CLA)
+If you wish to contribute code, and you have not signed our contributor license agreement (CLA), our
+bot will update the issue when you open a Pull Request. For any questions about the CLA process,
+please refer to our [VMware CLA FAQ](https://cla.vmware.com/faq).
+
+The repo is set up to the CLA process and CLA bot because it is governed by the [Apache Licence v2](LICENSE.txt).
+
+Please also make sure you are marking all source code as described here
+[Copyright and License](https://confluence.eng.vmware.com/pages/viewpage.action?spaceKey=OS&title=Copyright+and+License).
