@@ -276,6 +276,7 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -294,6 +295,7 @@
                             <release>${javadoc.sdk.version}</release>
                             <source>${javadoc.sdk.version}</source>
                         </configuration>
+                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -326,7 +328,7 @@
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
-                                <phase>verify</phase>
+                                <phase>deploy</phase>
                                 <configuration>
                                     <useAgent>true</useAgent>
                                 </configuration>
