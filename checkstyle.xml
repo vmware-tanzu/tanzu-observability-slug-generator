@@ -30,11 +30,13 @@
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
             <property name="allowMultipleEmptyLines" value="false"/>
-            <!-- ignore Notice.txt before package statement -->
-            <property name="tokens" value="IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF,
-            ENUM_DEF, STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF, VARIABLE_DEF, RECORD_DEF,
-            COMPACT_CTOR_DEF"/>
         </module>
+    </module>
+
+    <module name="RegexpHeader">
+        <property name="header"
+                  value="^/\*$\n^ \* Copyright \d\d\d\d VMware, Inc\.$\n^ \* SPDX-License-Identifier: Apache-2.0$\n^ \*/$"/>
+        <property name="fileExtensions" value="java"/>
     </module>
 
     <module name="RegexpSingleline">

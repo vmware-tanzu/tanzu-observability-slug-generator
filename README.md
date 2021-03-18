@@ -128,7 +128,6 @@ class Main {
 ```
 
 ## Generate a Dashboard Slug
-
 Follow these steps to generate a valid Wavefront dashboard URL:
 
 ### 1. Get the Wavefront Hostname and the Dashboard ID to Create the Base URL
@@ -222,3 +221,8 @@ This code is under the [Apache Licence v2](LICENSE).
 ## How to Contribute
 * Reach out to us on our public [Slack channel](https://www.wavefront.com/join-public-slack).
 * If you run into any issues, let us know by creating a GitHub issue.
+
+### Contributor License Agreement (CLA)
+If you wish to contribute code, and you have not signed our contributor license agreement (CLA), our
+bot will update the issue when you open a Pull Request. For any questions about the CLA process,
+please refer to our [VMware CLA FAQ](https://cla.vmware.com/faq).
