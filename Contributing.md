@@ -6,17 +6,20 @@ This page presents guidelines for contributing to this repository. Following the
  make the contribution process easy, collaborative, and productive.
 
 ## Contributor License Agreement (CLA)
+
 If you wish to contribute code, and you have not signed our contributor license agreement (CLA), our
 bot will update the issue when you open a Pull Request. For any questions about the CLA process,
 please refer to our [VMware CLA FAQ](https://cla.vmware.com/faq).
 
 ## Report Issues Through Slack
 
-In case you face problems, please reach out to us on our public [Slack channel](https://www.wavefront.com/join-public-slack).
+In case you face problems, please reach out to us on our public
+[Slack channel](https://www.wavefront.com/join-public-slack).
 
 ## Submitting Bug Reports and Feature Requests
 
-Please submit bug reports and feature requests by using our GitHub [Issues](https://github.com/wavefrontHQ/slugRisonGenerator/issues) page.
+Please submit bug reports and feature requests by using our GitHub
+[Issues](https://github.com/wavefrontHQ/slugRisonGenerator/issues) page.
 
 Before you submit a bug report about the code in the repository, please check the Issues page to
  see whether someone has already reported the problem. In the bug report, be as specific as possible

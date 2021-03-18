@@ -128,7 +128,6 @@ class Main {
 ```
 
 ## Generate a Dashboard Slug
-
 Follow these steps to generate a valid Wavefront dashboard URL:
 
 ### 1. Get the Wavefront Hostname and the Dashboard ID to Create the Base URL
