@@ -35,7 +35,7 @@
 
     <module name="RegexpHeader">
         <property name="header"
-                  value="^/\*$\n^Tanzu Observability Slug Generator$\n^Copyright \d\d\d\d VMware, Inc\.$\n\n^This product is licensed to you under the Apache 2\.0 license \(the &quot;License&quot;\)\. You may not use this$\n^product except in compliance with the Apache 2.0 License\.$\n\n^This product may include a number of subcomponents with separate copyright notices and license terms\.$\n^Your use of these subcomponents is subject to the terms and conditions of the subcomponent's license,$\n^as noted in the LICENSE file\.$\n^\*/$"/>
+                  value="^/\*$\n^ \* Copyright \d\d\d\d VMware, Inc\.$\n^ \* SPDX-License-Identifier: Apache-2.0$\n^ \*/$"/>
         <property name="fileExtensions" value="java"/>
     </module>
 
