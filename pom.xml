@@ -3,7 +3,7 @@
 
     <groupId>com.wavefront</groupId>
     <artifactId>slug-generator</artifactId>
-    <version>1.0.1-RC1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>RISON Slug Generator</name>
@@ -30,7 +30,7 @@
         <connection>scm:git:git@github.com:wavefrontHQ/slugRisonGenerator.git</connection>
         <developerConnection>scm:git:git@github.com:wavefrontHQ/slugRisonGenerator.git</developerConnection>
         <url>git@github.com:wavefrontHQ/slugRisonGenerator.git</url>
-      <tag>HEAD</tag>
+      <tag>v1.0.1</tag>
   </scm>
 
     <distributionManagement>
