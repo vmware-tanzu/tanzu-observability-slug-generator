@@ -30,7 +30,7 @@ Example:
       <version>$releaseVersion</version>
     </dependency>
     ```
-    Replace `$releaseVersion` with the latest version available on [nexus](https://repo.wavefront.com/#welcome).
+    Replace `$releaseVersion` with the latest version available on [maven-central](https://oss.sonatype.org/).
 * If you are using Gradle, add the following dependency:
     ```groovy
     dependencies {
@@ -43,7 +43,7 @@ Example:
         api("com.wavefront:slug-generator:$releaseVersion")
     }
     ```
-    Replace `$releaseVersion` with the latest version available on [nexus](https://repo.wavefront.com/#welcome).
+    Replace `$releaseVersion` with the latest version available on [maven-central](https://oss.sonatype.org/).
 
 ## Generate a Chart Slug
 Follow these steps to generate a valid Wavefront chart URL:
