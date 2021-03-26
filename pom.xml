@@ -34,21 +34,14 @@
   </scm>
 
     <distributionManagement>
-        <repository>
-            <id>sunnylabs-releases</id>
-            <name>Release Repository</name>
-            <url>https://repo.wavefront.com/content/repositories/releases/</url>
-        </repository>
         <snapshotRepository>
-            <id>sunnylabs-snapshots</id>
+            <id>ossrh</id>
             <name>Snapshot Repository</name>
-            <url>https://repo.wavefront.com/content/repositories/snapshots/</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
     <properties>
-        <nexus.upload.phase>none</nexus.upload.phase>
-
         <!-- jdk 11 can be used for building -->
         <jdk.version>11</jdk.version>
         <javadoc.sdk.version>8</javadoc.sdk.version>
@@ -69,16 +62,18 @@
         <assertj.core.version>3.18.0</assertj.core.version>
 
         <!-- maven plugins -->
+        <javadoc.sdk.version>11</javadoc.sdk.version>
         <checkstyle.version>8.37</checkstyle.version>
         <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
         <maven.plugin.enforcer.version>3.0.0-M3</maven.plugin.enforcer.version>
         <maven.plugin.checkstyle.version>3.1.1</maven.plugin.checkstyle.version>
         <maven.plugin.surefire.version>3.0.0-M5</maven.plugin.surefire.version>
         <maven.plugin.jacoco.version>0.8.6</maven.plugin.jacoco.version>
-        <maven.plugin.release.version>3.0.0-M1</maven.plugin.release.version>
-        <maven.plugin.deploy.version>3.0.0-M1</maven.plugin.deploy.version>
-        <javadoc.sdk.version>11</javadoc.sdk.version>
         <maven.plugin.javadoc.version>3.2.0</maven.plugin.javadoc.version>
+        <maven.plugin.source.version>3.2.1</maven.plugin.source.version>
+        <maven.plugin.release.version>3.0.0-M1</maven.plugin.release.version>
+        <maven.plugin.gpg.version>1.6</maven.plugin.gpg.version>
+        <maven.plugin.nexus-staging.version>1.6.8</maven.plugin.nexus-staging.version>
     </properties>
 
     <dependencyManagement>
@@ -273,6 +268,19 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.plugin.source.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven.plugin.javadoc.version}</version>
                 <executions>
@@ -300,33 +308,47 @@
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven.plugin.deploy.version}</version>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>nexus-upload</id>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                        <phase>${nexus.upload.phase}</phase>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <id>nexus</id>
+            <id>release</id>
             <properties>
-                <nexus.upload.phase>deploy</nexus.upload.phase>
+                <gpg.useagent>true</gpg.useagent>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven.plugin.gpg.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <configuration>
+                                    <useAgent>true</useAgent>
+                                </configuration>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${maven.plugin.nexus-staging.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
