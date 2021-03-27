@@ -216,7 +216,7 @@ class Main {
 ```
 
 ## License
-This code is under the [Apache Licence v2](LICENSE).
+This code is under the [Apache Licence v2](LICENSE.txt).
 
 ## How to Contribute
 * Reach out to us on our public [Slack channel](https://www.wavefront.com/join-public-slack).
