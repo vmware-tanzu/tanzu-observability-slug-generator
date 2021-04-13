@@ -25,8 +25,6 @@ import java.util.Map;
  * @author Yutian Wu (wyutian@vmware.com)
  */
 class DashboardSlugBuilderImpl implements DashboardSlugBuilder {
-  private static final String SELECTED_VARIABLE_PREFIX = "Label";
-
   // RISON mapper to serialize into RISON format
   private static final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
 
@@ -123,15 +121,15 @@ class DashboardSlugBuilderImpl implements DashboardSlugBuilder {
   }
 
   private DashboardSlug toDashboardSlug() {
-    return DashboardSlug.builder().
-        timeRange(TimeSection.builder().
-            startTime((long) Math.floor(this.start / 1000.0)).
-            duration((long) Math.floor((this.end - this.start) / 1000.0)).
-            live(this.enableLiveRefresh).
-            windowSize(this.windowSize).
-            compare(this.compare).
-            build()).
-        parameters(this.dashboardVariables).
-        build();
+    return DashboardSlug.builder()
+        .timeRange(TimeSection.builder()
+            .startTime((long) Math.floor(this.start / 1000.0))
+            .duration((long) Math.floor((this.end - this.start) / 1000.0))
+            .live(this.enableLiveRefresh)
+            .windowSize(this.windowSize)
+            .compare(this.compare)
+            .build())
+        .parameters(this.dashboardVariables)
+        .build();
   }
 }

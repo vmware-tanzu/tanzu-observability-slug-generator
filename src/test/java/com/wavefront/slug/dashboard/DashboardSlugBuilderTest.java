@@ -31,10 +31,10 @@ public class DashboardSlugBuilderTest {
   @Test
   @DisplayName("With only start time and end time")
   public void testBuild() throws Exception {
-    String slug = builder.
-        setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC)).
-        setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC)).
-        build();
+    String slug = builder
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .build();
 
     // verify
     String expectedSlug = "(g:(d:7200,s:1373948820))";
@@ -45,11 +45,11 @@ public class DashboardSlugBuilderTest {
   @Test
   @DisplayName("With simple dashboard variable")
   public void testBuildWithSimpleVariable() throws Exception {
-    String slug = builder.
-        setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC)).
-        setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC)).
-        setSimpleDashboardVariable("test", "Test").
-        build();
+    String slug = builder
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .setSimpleDashboardVariable("test", "Test")
+        .build();
 
     // verify
     String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
@@ -60,11 +60,11 @@ public class DashboardSlugBuilderTest {
   @Test
   @DisplayName("With list dashboard variable")
   public void testBuildWithListVariable() throws Exception {
-    String slug = builder.
-        setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC)).
-        setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC)).
-        setListDashboardVariable("test", "Test").
-        build();
+    String slug = builder
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .setListDashboardVariable("test", "Test")
+        .build();
 
     // verify
     String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(s:Test)))";
@@ -75,11 +75,11 @@ public class DashboardSlugBuilderTest {
   @Test
   @DisplayName("With dynamic dashboard variable")
   public void testBuildWithDynamicVariable() throws Exception {
-    String slug = builder.
-        setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC)).
-        setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC)).
-        setDynamicDashboardVariable("test", null).
-        build();
+    String slug = builder
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .setDynamicDashboardVariable("test", null)
+        .build();
 
     // verify
     String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:()))";
@@ -90,11 +90,11 @@ public class DashboardSlugBuilderTest {
   @Test
   @DisplayName("With dynamic dashboard variable")
   public void testBuildWithDynamicVariableWithValue() throws Exception {
-    String slug = builder.
-        setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC)).
-        setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC)).
-        setDynamicDashboardVariable("test", "Test").
-        build();
+    String slug = builder
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .setDynamicDashboardVariable("test", "Test")
+        .build();
 
     // verify
     String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
