@@ -31,6 +31,11 @@
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
             <property name="allowMultipleEmptyLines" value="false"/>
         </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="\.$"/>
+            <property name="ignoreComments" value="true"/>
+            <property name="message" value="Ending with dot"/>
+        </module>
     </module>
 
     <module name="RegexpHeader">

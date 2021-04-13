@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import com.google.common.net.UrlEscapers;
 
 import com.bazaarvoice.jackson.rison.RisonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -158,6 +159,13 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   }
 
   @Override
+  public String buildAndEscape() {
+    String slug = build();
+    return UrlEscapers.urlFragmentEscaper().escape(slug);
+  }
+
+  @Override
+  @Deprecated
   public String buildAndEncode() {
     String slug = build();
     return URLEncoder.encode(slug, StandardCharsets.UTF_8);
@@ -169,22 +177,22 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
    * @return {@link ChartSlug} which used in serialization.
    */
   private ChartSlug toChartSlug() {
-    return ChartSlug.builder().
-        customerId(this.customerId).
-        chart(Chart.builder().
-            id(this.id).
-            name(this.name).
-            units(this.units).
-            base(this.base).
-            chartSources(this.sources).
-            build()).
-        timeRange(TimeRange.builder().
-            startTime((long) Math.floor(this.start / 1000.0)).
-            duration((long) Math.floor((this.end - this.start) / 1000.0)).
-            granularity(this.granularity).
-            compare(this.compare).
-            build()).
-        focusedHosts(this.focusedHosts).
-        build();
+    return ChartSlug.builder()
+        .customerId(this.customerId)
+        .chart(Chart.builder()
+            .id(this.id)
+            .name(this.name)
+            .units(this.units)
+            .base(this.base)
+            .chartSources(this.sources)
+            .build())
+        .timeRange(TimeRange.builder()
+            .startTime((long) Math.floor(this.start / 1000.0))
+            .duration((long) Math.floor((this.end - this.start) / 1000.0))
+            .granularity(this.granularity)
+            .compare(this.compare)
+            .build())
+        .focusedHosts(this.focusedHosts)
+        .build();
   }
 }

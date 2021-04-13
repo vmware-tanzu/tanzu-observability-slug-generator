@@ -155,7 +155,14 @@ public interface ChartSlugBuilder {
   String build();
 
   /**
+   * Build and escape the chart slug to be used in the chart url.
+   */
+  String buildAndEscape();
+
+  /**
+   * @deprecated use {@link #buildAndEscape()} instead to avoid incorrect escape in url fragments.
    * Build and encoded the chart slug to be used in the chart url.
    */
+  @Deprecated
   String buildAndEncode();
 }
