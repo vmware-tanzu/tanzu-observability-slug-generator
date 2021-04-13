@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wavefront</groupId>
@@ -28,10 +30,11 @@
 
     <scm>
         <connection>scm:git:git@github.com:wavefrontHQ/slugRisonGenerator.git</connection>
-        <developerConnection>scm:git:git@github.com:wavefrontHQ/slugRisonGenerator.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:wavefrontHQ/slugRisonGenerator.git
+        </developerConnection>
         <url>git@github.com:wavefrontHQ/slugRisonGenerator.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>
@@ -53,8 +56,7 @@
         <lombok.version>1.18.2</lombok.version>
         <guava.version>29.0-jre</guava.version>
         <joda.time.version>2.10.1</joda.time.version>
-        <jackson.version>2.10.3</jackson.version>
-        <jackson.databind.version>2.10.5.1</jackson.databind.version>
+        <jackson.bom.version>2.12.1</jackson.bom.version>
         <jackson.rison.version>2.9.10.2</jackson.rison.version>
 
         <!-- test dependencies -->
@@ -78,6 +80,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.bom.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -108,12 +117,10 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.databind.version}</version>
         </dependency>
         <dependency>
             <groupId>com.bazaarvoice.jackson</groupId>
@@ -166,7 +173,7 @@
                         <id>enforce</id>
                         <configuration>
                             <rules>
-                                <DependencyConvergence />
+                                <DependencyConvergence/>
                             </rules>
                         </configuration>
                         <goals>
