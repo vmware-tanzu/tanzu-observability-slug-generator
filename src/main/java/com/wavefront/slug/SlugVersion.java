@@ -7,7 +7,6 @@ package com.wavefront.slug;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Value;
 
 /**
  * Enums represents all the supported slug versions.

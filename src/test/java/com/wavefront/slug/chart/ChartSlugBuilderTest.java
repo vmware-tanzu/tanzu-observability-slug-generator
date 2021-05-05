@@ -40,7 +40,7 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:Hello,q:'Wo<rld',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:Hello,q:'Wo<rld',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
@@ -56,7 +56,7 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'!'s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'!'s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
@@ -72,7 +72,23 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'\"s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'\"s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
+    assertThat(slug).as(message).isEqualTo(expectedSlug);
+  }
+
+  @Test
+  @DisplayName("With source query name contains pound")
+  public void testBuildWithPound() throws Exception {
+    String slug = builder
+        .setCustomerId("tsdb")
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .addSource("query#", "World")
+        .build();
+
+    // verify
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'query#',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
@@ -96,7 +112,7 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:10,id:id,n:Super,ne:!t,s:!((n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
+    String expectedSlug = "_v02(c:(b:10,id:id,n:Super,ne:!t,s:!((n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
         "(n:Hello2,q:World2,qb:QBS,qbe:!t)),smp:off),g:(c:'1d',d:7200,g:h,s:1373948820),h:!(abcd01)," +
         "t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
@@ -126,7 +142,7 @@ public class ChartSlugBuilderTest {
 
     // verify
     // notes "d:!t" wedged in below
-    String expectedSlug = "(c:(b:10,id:id,n:Super,ne:!t,s:!((d:!t,n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
+    String expectedSlug = "_v02(c:(b:10,id:id,n:Super,ne:!t,s:!((d:!t,n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
         "(n:Hello2,q:World2,qb:QBS,qbe:!t)),smp:off),g:(c:'1d',d:7200,g:h,s:1373948820),h:!(abcd01)," +
         "t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
@@ -155,7 +171,7 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:10,id:new-chart,n:'New Chart',ne:!t,s:!(" +
+    String expectedSlug = "_v02(c:(b:10,id:new-chart,n:'New Chart',ne:!t,s:!(" +
         "(n:Hello,q:'mcount(2m, ts(igneous.heartbeat.count.30s, \"_host\"=\"petra1\"))',qb:'{\"_v\":1,\"metric\":\"ts(igneous.heartbeat." +
         "count.30s)\",\"filters\":[[[\"\\\"_host\\\"\",\"petra1\"]],\"and\"],\"functions\":[[\"mcount\",[\"2m\"]]]}'" +
         ",qbe:!t)),smp:off),g:(c:off,d:7200,g:h,s:1463977620),t:igneous-systems)";

@@ -5,6 +5,7 @@
 
 package com.wavefront.slug.chart;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -152,6 +153,28 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
 
   @Override
   public String build() {
+    return slugVersion.getVersionStr() + internalBuild();
+  }
+
+  @Override
+  public String buildAndEscape() {
+    String slug = build();
+    return UrlEscapers.urlFragmentEscaper().escape(slug);
+  }
+
+  /**
+   * This only works in v1 slugs, as it encodes special characters as well.
+   * So the result it generated will only be v1 slugs.
+   */
+  @Override
+  @Deprecated
+  public String buildAndEncode() {
+    String slug = SlugVersion.V1.getVersionStr() + internalBuild();
+    return URLEncoder.encode(slug, StandardCharsets.UTF_8);
+  }
+
+  @VisibleForTesting
+  String internalBuild() {
     Preconditions.checkState(!Strings.isNullOrEmpty(customerId), "customerId cannot be empty or null");
     Preconditions.checkState(start != null, "start must be set");
     Preconditions.checkState(end != null, "end must be set");
@@ -162,23 +185,6 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
     } catch (JsonProcessingException e) {
       throw Throwables.propagate(e);
     }
-  }
-
-  @Override
-  public String buildAndEscape() {
-    String slug = build();
-    return slugVersion.getVersionStr() + UrlEscapers.urlFragmentEscaper().escape(slug);
-  }
-
-  /**
-   * This only works in v1 slugs, as it encodes special characters as well.
-   * So the result it generated will only be v1 slugs.
-   */
-  @Override
-  @Deprecated
-  public String buildAndEncode() {
-    String slug = build();
-    return SlugVersion.V1.getVersionStr() + URLEncoder.encode(slug, StandardCharsets.UTF_8);
   }
 
   /**

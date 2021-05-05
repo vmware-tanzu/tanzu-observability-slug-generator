@@ -34,4 +34,9 @@ public final class SlugBuilders {
   public static DashboardSlugBuilder dashboardSlugBuilder() {
     return DashboardSlugBuilders.slugBuilder();
   }
+
+  @Deprecated
+  public static DashboardSlugBuilder dashboardSlugBuilderV1() {
+    return DashboardSlugBuilders.slugBuilderV1();
+  }
 }

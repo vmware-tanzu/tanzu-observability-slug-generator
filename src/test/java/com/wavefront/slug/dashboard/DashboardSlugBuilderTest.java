@@ -37,7 +37,7 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
@@ -52,7 +52,7 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
@@ -67,7 +67,7 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(s:Test)))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:(s:Test)))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
@@ -82,7 +82,7 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:()))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:()))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
@@ -97,7 +97,7 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }

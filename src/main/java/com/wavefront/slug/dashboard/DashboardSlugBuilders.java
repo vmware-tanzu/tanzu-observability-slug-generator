@@ -5,6 +5,8 @@
 
 package com.wavefront.slug.dashboard;
 
+import com.wavefront.slug.SlugVersion;
+
 import lombok.experimental.UtilityClass;
 
 /**
@@ -15,6 +17,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class DashboardSlugBuilders {
   public static DashboardSlugBuilder slugBuilder() {
-    return new DashboardSlugBuilderImpl();
+    return new DashboardSlugBuilderImpl(SlugVersion.V2);
+  }
+
+  @Deprecated
+  public static DashboardSlugBuilder slugBuilderV1() {
+    return new DashboardSlugBuilderImpl(SlugVersion.V1);
   }
 }
