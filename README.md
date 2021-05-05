@@ -95,7 +95,7 @@ import com.wavefront.slug.SlugBuilders;
 class Main {
     public static void main(String[] args) {
         // Plain String
-        // result: (c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
+        // result: _v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
         String slug = SlugBuilders.chartSlugBuilder()
             .setCustomerId("customer")
             .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
@@ -121,7 +121,7 @@ class Main {
         // followed from  step 1 & 2
         String escapedFragment = "#" + UrlEscapers.urlFragmentEscaper().escape(slug);
 
-        // result: https://mydomain.wavefront.com/chart#(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
+        // result: https://mydomain.wavefront.com/chart#_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:source,q:'ts(metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:customer)
         String fullUrl = baseUrl + escapedFragment;
     }
 }
@@ -185,7 +185,7 @@ import com.wavefront.slug.SlugBuilders;
 class Main {
     public static void main(String[] args) {
         // Plain String
-        // result: (g:(d:7200,l:!t,,s:1373948820))
+        // result: _v02(g:(d:7200,l:!t,,s:1373948820))
         String slug = SlugBuilders.dashboardSlugBuilder()
             .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
             .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
@@ -209,7 +209,7 @@ class Main {
         // followed from step 1 & 2
         String escapedFragment = "#" + UrlEscapers.urlFragmentEscaper().escape(slug);
 
-        // result: https://mydomain.wavefront.com/dashboards/mydashboard#(g:(d:7200,l:!t,s:1373948820))
+        // result: https://mydomain.wavefront.com/dashboards/mydashboard#_v02(g:(d:7200,l:!t,s:1373948820))
         String fullUrl = baseUrl + escapedFragment;
     }
 }

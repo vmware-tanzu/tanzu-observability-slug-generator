@@ -14,6 +14,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SlugVersion {
+  @Deprecated
   V1("_v01"),
   V2("_v02");
 
