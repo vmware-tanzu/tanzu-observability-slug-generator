@@ -162,6 +162,8 @@ public interface ChartSlugBuilder {
   /**
    * @deprecated use {@link #buildAndEscape()} instead to avoid incorrect escape in url fragments.
    * Build and encoded the chart slug to be used in the chart url.
+   *
+   * This only works in v1 slugs, as it encodes special characters as well.
    */
   @Deprecated
   String buildAndEncode();

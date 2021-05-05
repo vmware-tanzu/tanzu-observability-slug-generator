@@ -10,6 +10,8 @@ import com.wavefront.slug.chart.ChartSlugBuilders;
 import com.wavefront.slug.dashboard.DashboardSlugBuilder;
 import com.wavefront.slug.dashboard.DashboardSlugBuilders;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * Static factory to generate different slug builders:
  *
@@ -18,15 +20,15 @@ import com.wavefront.slug.dashboard.DashboardSlugBuilders;
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */
+@UtilityClass
 public final class SlugBuilders {
-
-  private SlugBuilders() {
-    throw new UnsupportedOperationException("SlugBuilders is an static factory class, cannot be" +
-        " instantiated.");
-  }
-
   public static ChartSlugBuilder chartSlugBuilder() {
     return ChartSlugBuilders.slugBuilder();
+  }
+
+  @Deprecated
+  public static ChartSlugBuilder chartSlugBuilderV1() {
+    return ChartSlugBuilders.slugBuilderV1();
   }
 
   public static DashboardSlugBuilder dashboardSlugBuilder() {

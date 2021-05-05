@@ -14,6 +14,7 @@ import com.google.common.net.UrlEscapers;
 import com.bazaarvoice.jackson.rison.RisonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wavefront.slug.SlugVersion;
 
 import org.joda.time.ReadableInstant;
 
@@ -28,7 +29,6 @@ import java.util.List;
  * @author Yutian Wu (wyutian@vmware.com)
  */
 class ChartSlugBuilderImpl implements ChartSlugBuilder {
-
   // RISON mapper to serialize into RISON format
   private static final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
 
@@ -44,6 +44,12 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   private String compare = "off";
   private String units = null;
   private int base = 1;
+
+  private final SlugVersion slugVersion;
+
+  public ChartSlugBuilderImpl(SlugVersion slugVersion) {
+    this.slugVersion = slugVersion;
+  }
 
   @Override
   public ChartSlugBuilderImpl setCustomerId(String customerId) {
@@ -161,14 +167,18 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   @Override
   public String buildAndEscape() {
     String slug = build();
-    return UrlEscapers.urlFragmentEscaper().escape(slug);
+    return slugVersion.getVersionStr() + UrlEscapers.urlFragmentEscaper().escape(slug);
   }
 
+  /**
+   * This only works in v1 slugs, as it encodes special characters as well.
+   * So the result it generated will only be v1 slugs.
+   */
   @Override
   @Deprecated
   public String buildAndEncode() {
     String slug = build();
-    return URLEncoder.encode(slug, StandardCharsets.UTF_8);
+    return SlugVersion.V1.getVersionStr() + URLEncoder.encode(slug, StandardCharsets.UTF_8);
   }
 
   /**
