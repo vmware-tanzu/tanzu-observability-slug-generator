@@ -94,6 +94,22 @@ public class ChartSlugBuilderTest {
   }
 
   @Test
+  @DisplayName("With source query name contains pound")
+  public void testBuildAndEscapeWithPound() throws Exception {
+    String slug = builder
+        .setCustomerId("tsdb")
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .addSource("query#", "World")
+        .buildAndEscape();
+
+    // verify
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'query%23',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
+    assertThat(slug).as(message).isEqualTo(expectedSlug);
+  }
+
+  @Test
   @DisplayName("With source query contains white spaces")
   public void testBuildWithWhiteSpace() throws Exception {
 
@@ -149,10 +165,6 @@ public class ChartSlugBuilderTest {
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
-  /**
-   * In ticket [MONIT-3693] Alert does not fire, but cloned version does, nested double quotes does
-   * not escaped correctly which leads to JavaScript syntax issue.
-   */
   @Test
   @DisplayName("With nested double quote")
   public void testBuildWithNestedDoubleQuote() throws Exception {
