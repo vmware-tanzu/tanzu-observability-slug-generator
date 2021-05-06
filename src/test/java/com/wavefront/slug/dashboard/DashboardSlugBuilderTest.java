@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,6 +30,7 @@ public class DashboardSlugBuilderTest {
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With only start time and end time")
   public void testBuild() throws Exception {
     String slug = builder
@@ -43,6 +45,7 @@ public class DashboardSlugBuilderTest {
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With simple dashboard variable")
   public void testBuildWithSimpleVariable() throws Exception {
     String slug = builder
@@ -58,6 +61,7 @@ public class DashboardSlugBuilderTest {
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With list dashboard variable")
   public void testBuildWithListVariable() throws Exception {
     String slug = builder
@@ -73,6 +77,7 @@ public class DashboardSlugBuilderTest {
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With dynamic dashboard variable")
   public void testBuildWithDynamicVariable() throws Exception {
     String slug = builder
@@ -88,6 +93,7 @@ public class DashboardSlugBuilderTest {
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With dynamic dashboard variable")
   public void testBuildWithDynamicVariableWithValue() throws Exception {
     String slug = builder
