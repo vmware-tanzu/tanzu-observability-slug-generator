@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,6 +30,7 @@ public class DashboardSlugBuilderTest {
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With only start time and end time")
   public void testBuild() throws Exception {
     String slug = builder
@@ -37,12 +39,13 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With simple dashboard variable")
   public void testBuildWithSimpleVariable() throws Exception {
     String slug = builder
@@ -52,12 +55,13 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With list dashboard variable")
   public void testBuildWithListVariable() throws Exception {
     String slug = builder
@@ -67,12 +71,13 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(s:Test)))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:(s:Test)))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With dynamic dashboard variable")
   public void testBuildWithDynamicVariable() throws Exception {
     String slug = builder
@@ -82,12 +87,13 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:()))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:()))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With dynamic dashboard variable")
   public void testBuildWithDynamicVariableWithValue() throws Exception {
     String slug = builder
@@ -97,7 +103,7 @@ public class DashboardSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
+    String expectedSlug = "_v02(g:(d:7200,s:1373948820),p:(test:(v:Test)))";
     String message = String.format("The expected URL slug should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }

@@ -12,6 +12,7 @@ import com.google.common.net.UrlEscapers;
 import com.bazaarvoice.jackson.rison.RisonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wavefront.slug.SlugVersion;
 
 import org.joda.time.ReadableInstant;
 
@@ -35,6 +36,12 @@ class DashboardSlugBuilderImpl implements DashboardSlugBuilder {
   private String windowSize;
   private String compare;
   private boolean enableLiveRefresh = false;
+
+  private final SlugVersion slugVersion;
+
+  public DashboardSlugBuilderImpl(SlugVersion slugVersion) {
+    this.slugVersion = slugVersion;
+  }
 
   @Override
   public DashboardSlugBuilder setStart(long startMillis) {
@@ -108,7 +115,7 @@ class DashboardSlugBuilderImpl implements DashboardSlugBuilder {
     Preconditions.checkState(end != null, "end must be set");
 
     try {
-      return mapper.writeValueAsString(toDashboardSlug());
+      return slugVersion.getVersionStr() + mapper.writeValueAsString(toDashboardSlug());
     } catch (JsonProcessingException e) {
       throw Throwables.propagate(e);
     }

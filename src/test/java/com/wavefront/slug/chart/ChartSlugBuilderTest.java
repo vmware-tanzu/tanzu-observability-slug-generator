@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,6 +31,7 @@ public class ChartSlugBuilderTest {
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With source query contains angle brackets")
   public void testBuildWithAngleBrackets() throws Exception {
     String slug = builder
@@ -40,12 +42,13 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:Hello,q:'Wo<rld',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:Hello,q:'Wo<rld',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With source query name contains single quote")
   public void testBuildWithSingleQuote() throws Exception {
     String slug = builder
@@ -56,12 +59,13 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'!'s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'!'s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
   @Test
+  @Tag("Build")
   @DisplayName("With source query name contains double quote")
   public void testBuildWithDoubleQuote() throws Exception {
     String slug = builder
@@ -72,12 +76,30 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'\"s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'\"s',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
   @Test
+  @Tag("Build")
+  @DisplayName("With source query name contains pound")
+  public void testBuildWithPound() throws Exception {
+    String slug = builder
+        .setCustomerId("tsdb")
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .addSource("query#", "World")
+        .build();
+
+    // verify
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'query#',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
+    assertThat(slug).as(message).isEqualTo(expectedSlug);
+  }
+
+  @Test
+  @Tag("Build")
   @DisplayName("With source query contains white spaces")
   public void testBuildWithWhiteSpace() throws Exception {
 
@@ -96,7 +118,7 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:10,id:id,n:Super,ne:!t,s:!((n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
+    String expectedSlug = "_v02(c:(b:10,id:id,n:Super,ne:!t,s:!((n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
         "(n:Hello2,q:World2,qb:QBS,qbe:!t)),smp:off),g:(c:'1d',d:7200,g:h,s:1373948820),h:!(abcd01)," +
         "t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
@@ -108,6 +130,7 @@ public class ChartSlugBuilderTest {
    * not disabled (see {@link ChartSource}).
    */
   @Test
+  @Tag("Build")
   @DisplayName("With disabled source")
   public void testBuildWithDisabledSource() throws Exception {
     String slug = builder
@@ -126,18 +149,15 @@ public class ChartSlugBuilderTest {
 
     // verify
     // notes "d:!t" wedged in below
-    String expectedSlug = "(c:(b:10,id:id,n:Super,ne:!t,s:!((d:!t,n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
+    String expectedSlug = "_v02(c:(b:10,id:id,n:Super,ne:!t,s:!((d:!t,n:Hello,q:'World Wide Web',qb:!n,qbe:!f)," +
         "(n:Hello2,q:World2,qb:QBS,qbe:!t)),smp:off),g:(c:'1d',d:7200,g:h,s:1373948820),h:!(abcd01)," +
         "t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
 
-  /**
-   * In ticket [MONIT-3693] Alert does not fire, but cloned version does, nested double quotes does
-   * not escaped correctly which leads to JavaScript syntax issue.
-   */
   @Test
+  @Tag("Build")
   @DisplayName("With nested double quote")
   public void testBuildWithNestedDoubleQuote() throws Exception {
     String slug = builder
@@ -155,10 +175,27 @@ public class ChartSlugBuilderTest {
         .build();
 
     // verify
-    String expectedSlug = "(c:(b:10,id:new-chart,n:'New Chart',ne:!t,s:!(" +
+    String expectedSlug = "_v02(c:(b:10,id:new-chart,n:'New Chart',ne:!t,s:!(" +
         "(n:Hello,q:'mcount(2m, ts(igneous.heartbeat.count.30s, \"_host\"=\"petra1\"))',qb:'{\"_v\":1,\"metric\":\"ts(igneous.heartbeat." +
         "count.30s)\",\"filters\":[[[\"\\\"_host\\\"\",\"petra1\"]],\"and\"],\"functions\":[[\"mcount\",[\"2m\"]]]}'" +
         ",qbe:!t)),smp:off),g:(c:off,d:7200,g:h,s:1463977620),t:igneous-systems)";
+    String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
+    assertThat(slug).as(message).isEqualTo(expectedSlug);
+  }
+
+  @Test
+  @Tag("BuildAndEscape")
+  @DisplayName("With source query name contains pound")
+  public void testBuildAndEscapeWithPound() throws Exception {
+    String slug = builder
+        .setCustomerId("tsdb")
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .addSource("query#", "World")
+        .buildAndEscape();
+
+    // verify
+    String expectedSlug = "_v02(c:(b:1,id:chart,n:Chart,ne:!t,s:!((n:'query%23',q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }

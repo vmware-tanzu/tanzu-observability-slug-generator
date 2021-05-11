@@ -5,18 +5,23 @@
 
 package com.wavefront.slug.dashboard;
 
+import com.wavefront.slug.SlugVersion;
+
+import lombok.experimental.UtilityClass;
+
 /**
  * Static factories for Dashboard slug builder ({@link DashboardSlugBuilder}).
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */
+@UtilityClass
 public final class DashboardSlugBuilders {
-  private DashboardSlugBuilders() {
-    throw new UnsupportedOperationException("DashboardSlugBuilders is an static factory class, cannot be" +
-        " instantiated.");
+  public static DashboardSlugBuilder slugBuilder() {
+    return new DashboardSlugBuilderImpl(SlugVersion.V2);
   }
 
-  public static DashboardSlugBuilder slugBuilder() {
-    return new DashboardSlugBuilderImpl();
+  @Deprecated
+  public static DashboardSlugBuilder slugBuilderV1() {
+    return new DashboardSlugBuilderImpl(SlugVersion.V1);
   }
 }
