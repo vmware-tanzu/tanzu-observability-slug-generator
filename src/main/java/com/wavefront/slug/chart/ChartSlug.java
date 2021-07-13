@@ -22,7 +22,7 @@ import lombok.Builder;
 @Builder
 @AllArgsConstructor
 @JsonPropertyOrder(alphabetic = true)
-class ChartSlug {
+public class ChartSlug {
   @JsonProperty("t")
   private final String customerId;
 

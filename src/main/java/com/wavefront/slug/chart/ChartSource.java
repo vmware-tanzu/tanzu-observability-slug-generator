@@ -22,7 +22,7 @@ import lombok.Builder;
 @Builder
 @AllArgsConstructor
 @JsonPropertyOrder(alphabetic = true)
-class ChartSource {
+public class ChartSource {
   @JsonProperty("n")
   private final String queryName;
 

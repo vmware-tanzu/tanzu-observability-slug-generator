@@ -106,6 +106,30 @@ public interface ChartSlugBuilder {
   ChartSlugBuilder setBase(int base);
 
   /**
+   * Sets the chart's settings from a JSON serialized string.
+   *
+   * @param chartSettings chart settings string
+   * @return The builder.
+   */
+  ChartSlugBuilder setChartSettings(String chartSettings);
+
+  /**
+   * Sets the chart's settings from a ChartSettings objects.
+   *
+   * @param chartSettings chart settings string
+   * @return The builder.
+   */
+  ChartSlugBuilder setChartSettings(ChartSettings chartSettings);
+
+  /**
+   * Sets the chart's attributes from a JSON serialized string.
+   *
+   * @param chartAttributes chart settings string
+   * @return The builder.
+   */
+  ChartSlugBuilder setChartAttributes(String chartAttributes);
+
+  /**
    * Add a new source query to the chart.
    *
    * @param name  Name of the query.
