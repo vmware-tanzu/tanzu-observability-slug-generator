@@ -32,6 +32,8 @@ import java.util.List;
 class ChartSlugBuilderImpl implements ChartSlugBuilder {
   // RISON mapper to serialize into RISON format
   private static final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
+  // JSON mapper to deserialize chart settings into chart settings
+  private static final ObjectMapper JSONMapper = new ObjectMapper();
 
   private final List<ChartSource> sources = Lists.newArrayList();
   private final List<String> focusedHosts = Lists.newArrayList();
@@ -45,6 +47,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   private String compare = "off";
   private String units = null;
   private int base = 1;
+  private ChartSettings chartSettings = null;
 
   private final SlugVersion slugVersion;
 
@@ -116,6 +119,15 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   public ChartSlugBuilderImpl setBase(int base) {
     Preconditions.checkArgument(base >= 1, "base must be >= 1");
     this.base = base;
+    return this;
+  }
+
+  @Override
+  public ChartSlugBuilder setChartSettings(String chartSettings) throws JsonProcessingException {
+    if (Strings.isNullOrEmpty(chartSettings)) {
+      return this;
+    }
+    this.chartSettings = JSONMapper.readValue(chartSettings, ChartSettings.class);
     return this;
   }
 
@@ -201,6 +213,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
             .units(this.units)
             .base(this.base)
             .chartSources(this.sources)
+            .chartSettings(this.chartSettings)
             .build())
         .timeRange(TimeRange.builder()
             .startTime((long) Math.floor(this.start / 1000.0))

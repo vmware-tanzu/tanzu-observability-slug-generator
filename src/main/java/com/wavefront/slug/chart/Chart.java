@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /**
- * Internal POJO represents a a chart with RISON compatible property name, used in {@link ChartSlug}.
+ * Internal POJO represents a chart with RISON compatible property name, used in {@link ChartSlug}.
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */
@@ -51,4 +51,8 @@ class Chart {
   @JsonProperty("s")
   @Builder.Default
   private final List<ChartSource> chartSources = Collections.emptyList();
+
+  @JsonProperty("cs")
+  @Builder.Default
+  private final ChartSettings chartSettings = null;
 }

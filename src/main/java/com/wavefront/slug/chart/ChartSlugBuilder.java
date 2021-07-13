@@ -5,6 +5,8 @@
 
 package com.wavefront.slug.chart;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.joda.time.ReadableInstant;
 
 /**
@@ -104,6 +106,14 @@ public interface ChartSlugBuilder {
    * @return The builder.
    */
   ChartSlugBuilder setBase(int base);
+
+  /**
+   * Sets the chart's settings from a JSON serialized string.
+   *
+   * @param chartSettings chart settings string
+   * @return The builder.
+   */
+  ChartSlugBuilder setChartSettings(String chartSettings) throws JsonProcessingException;
 
   /**
    * Add a new source query to the chart.
