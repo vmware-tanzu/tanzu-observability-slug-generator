@@ -14,6 +14,7 @@ import com.google.common.net.UrlEscapers;
 
 import com.bazaarvoice.jackson.rison.RisonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wavefront.slug.SlugVersion;
 
@@ -22,6 +23,8 @@ import org.joda.time.ReadableInstant;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * Builder implementation for {@link ChartSlugBuilder} using
@@ -37,7 +40,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
 
   private final List<ChartSource> sources = Lists.newArrayList();
   private final List<String> focusedHosts = Lists.newArrayList();
-
+  private final SlugVersion slugVersion;
   private String customerId;
   private String id = "chart";
   private String name = "Chart";
@@ -47,9 +50,8 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   private String compare = "off";
   private String units = null;
   private int base = 1;
-  private ChartSettings chartSettings = null;
-
-  private final SlugVersion slugVersion;
+  private String chartSettings = null;
+  private String chartAttributes = null;
 
   public ChartSlugBuilderImpl(SlugVersion slugVersion) {
     this.slugVersion = slugVersion;
@@ -123,11 +125,14 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   }
 
   @Override
-  public ChartSlugBuilder setChartSettings(String chartSettings) throws JsonProcessingException {
-    if (Strings.isNullOrEmpty(chartSettings)) {
-      return this;
-    }
-    this.chartSettings = JSONMapper.readValue(chartSettings, ChartSettings.class);
+  public ChartSlugBuilder setChartSettings(String chartSettings) {
+    this.chartSettings = chartSettings;
+    return this;
+  }
+
+  @Override
+  public ChartSlugBuilder setChartAttributes(String chartSettings) {
+    this.chartAttributes = chartSettings;
     return this;
   }
 
@@ -204,7 +209,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
    *
    * @return {@link ChartSlug} which used in serialization.
    */
-  private ChartSlug toChartSlug() {
+  private ChartSlug toChartSlug() throws JsonProcessingException {
     return ChartSlug.builder()
         .customerId(this.customerId)
         .chart(Chart.builder()
@@ -213,7 +218,8 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
             .units(this.units)
             .base(this.base)
             .chartSources(this.sources)
-            .chartSettings(this.chartSettings)
+            .chartSettings(parseJSON(this.chartSettings))
+            .chartAttributes(parseJSON(this.chartAttributes))
             .build())
         .timeRange(TimeRange.builder()
             .startTime((long) Math.floor(this.start / 1000.0))
@@ -223,5 +229,13 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
             .build())
         .focusedHosts(this.focusedHosts)
         .build();
+  }
+
+  @Nullable
+  private JsonNode parseJSON(String JSONString) throws JsonProcessingException {
+    if (Strings.isNullOrEmpty(JSONString)) {
+      return null;
+    }
+    return JSONMapper.readTree(JSONString);
   }
 }
