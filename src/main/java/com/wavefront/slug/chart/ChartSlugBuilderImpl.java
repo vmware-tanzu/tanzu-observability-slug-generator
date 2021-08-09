@@ -38,9 +38,12 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   // JSON mapper to deserialize chart settings into chart settings
   private static final ObjectMapper JSONMapper = new ObjectMapper();
 
+  // slug version
+  private final SlugVersion slugVersion;
+
+  // in memory chart properties
   private final List<ChartSource> sources = Lists.newArrayList();
   private final List<String> focusedHosts = Lists.newArrayList();
-  private final SlugVersion slugVersion;
   private String customerId;
   private String id = "chart";
   private String name = "Chart";
@@ -218,8 +221,8 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
             .units(this.units)
             .base(this.base)
             .chartSources(this.sources)
-            .chartSettings(parseJSON(this.chartSettings))
-            .chartAttributes(parseJSON(this.chartAttributes))
+            .chartSettings(parseJSON(this.chartSettings, ChartSettings.class))
+            .chartAttributes(parseJSON(this.chartAttributes, JsonNode.class))
             .build())
         .timeRange(TimeRange.builder()
             .startTime((long) Math.floor(this.start / 1000.0))
@@ -231,11 +234,15 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
         .build();
   }
 
+  /**
+   * Parse nullable string into its intended structure.
+   */
   @Nullable
-  private JsonNode parseJSON(String JSONString) throws JsonProcessingException {
+  private <T> T parseJSON(@Nullable String JSONString, Class<T> tClazz)
+      throws JsonProcessingException {
     if (Strings.isNullOrEmpty(JSONString)) {
       return null;
     }
-    return JSONMapper.readTree(JSONString);
+    return JSONMapper.readValue(JSONString, tClazz);
   }
 }

@@ -55,7 +55,7 @@ class Chart {
 
   @JsonProperty("cs")
   @Builder.Default
-  private final JsonNode chartSettings = null;
+  private final ChartSettings chartSettings = null;
 
   @JsonProperty("ca")
   @Builder.Default
