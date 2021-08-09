@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 class ChartSlugBuilderImpl implements ChartSlugBuilder {
   // RISON mapper to serialize into RISON format
   private static final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
-  // JSON mapper to deserialize chart settings into chart settings
+  // JSON mapper to deserialize chart settings / chart attributes into entities
   private static final ObjectMapper JSONMapper = new ObjectMapper();
 
   // slug version
