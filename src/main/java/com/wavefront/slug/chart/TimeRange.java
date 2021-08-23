@@ -22,7 +22,7 @@ import lombok.Builder;
 @AllArgsConstructor
 @JsonPropertyOrder(alphabetic = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class TimeRange {
+public class TimeRange {
   @JsonProperty("s")
   private final long startTime;
 

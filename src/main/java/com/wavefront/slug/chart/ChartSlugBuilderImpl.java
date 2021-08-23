@@ -27,12 +27,12 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /**
- * Builder implementation for {@link ChartSlugBuilder} using
- * {@link RisonFactory Jackson RISON Lib} (https://github.com/bazaarvoice/rison).
+ * Builder implementation for {@link ChartSlugBuilder} using {@link RisonFactory Jackson RISON Lib}
+ * (https://github.com/bazaarvoice/rison).
  *
  * @author Yutian Wu (wyutian@vmware.com)
  */
-class ChartSlugBuilderImpl implements ChartSlugBuilder {
+public class ChartSlugBuilderImpl implements ChartSlugBuilder {
   // RISON mapper to serialize into RISON format
   private static final ObjectMapper mapper = new ObjectMapper(new RisonFactory());
   // JSON mapper to deserialize chart settings / chart attributes into entities
@@ -53,8 +53,8 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   private String compare = "off";
   private String units = null;
   private int base = 1;
-  private String chartSettings = null;
-  private String chartAttributes = null;
+  private ChartSettings chartSettings = null;
+  private JsonNode chartAttributes = null;
 
   public ChartSlugBuilderImpl(SlugVersion slugVersion) {
     this.slugVersion = slugVersion;
@@ -122,20 +122,25 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
 
   @Override
   public ChartSlugBuilderImpl setBase(int base) {
-    Preconditions.checkArgument(base >= 1, "base must be >= 1");
     this.base = base;
     return this;
   }
 
   @Override
   public ChartSlugBuilder setChartSettings(String chartSettings) {
-    this.chartSettings = chartSettings;
+    this.chartSettings = parseJSON(chartSettings, ChartSettings.class);
     return this;
   }
 
   @Override
+  public ChartSlugBuilder setChartSettings(ChartSettings chartSettings) {
+    this.chartSettings = chartSettings;
+    return null;
+  }
+
+  @Override
   public ChartSlugBuilder setChartAttributes(String chartSettings) {
-    this.chartAttributes = chartSettings;
+    this.chartAttributes = parseJSON(chartSettings, JsonNode.class);
     return this;
   }
 
@@ -183,8 +188,8 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
   }
 
   /**
-   * This only works in v1 slugs, as it encodes special characters as well.
-   * So the result it generated will only be v1 slugs.
+   * This only works in v1 slugs, as it encodes special characters as well. So the result it
+   * generated will only be v1 slugs.
    */
   @Override
   @Deprecated
@@ -198,6 +203,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
     Preconditions.checkState(!Strings.isNullOrEmpty(customerId), "customerId cannot be empty or null");
     Preconditions.checkState(start != null, "start must be set");
     Preconditions.checkState(end != null, "end must be set");
+    Preconditions.checkArgument(base >= 1, "base must be >= 1");
     Preconditions.checkState(sources.size() > 0, "must have at least one chart source");
 
     try {
@@ -212,7 +218,7 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
    *
    * @return {@link ChartSlug} which used in serialization.
    */
-  private ChartSlug toChartSlug() throws JsonProcessingException {
+  private ChartSlug toChartSlug() {
     return ChartSlug.builder()
         .customerId(this.customerId)
         .chart(Chart.builder()
@@ -221,8 +227,8 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
             .units(this.units)
             .base(this.base)
             .chartSources(this.sources)
-            .chartSettings(parseJSON(this.chartSettings, ChartSettings.class))
-            .chartAttributes(parseJSON(this.chartAttributes, JsonNode.class))
+            .chartSettings(this.chartSettings)
+            .chartAttributes(this.chartAttributes)
             .build())
         .timeRange(TimeRange.builder()
             .startTime((long) Math.floor(this.start / 1000.0))
@@ -238,11 +244,15 @@ class ChartSlugBuilderImpl implements ChartSlugBuilder {
    * Parse nullable string into its intended structure.
    */
   @Nullable
-  private <T> T parseJSON(@Nullable String JSONString, Class<T> tClazz)
-      throws JsonProcessingException {
+  private <T> T parseJSON(@Nullable String JSONString, Class<T> tClazz) {
     if (Strings.isNullOrEmpty(JSONString)) {
       return null;
     }
-    return JSONMapper.readValue(JSONString, tClazz);
+    try {
+      return JSONMapper.readValue(JSONString, tClazz);
+    } catch (JsonProcessingException ex) {
+      Throwables.propagate(ex);
+      return null;
+    }
   }
 }

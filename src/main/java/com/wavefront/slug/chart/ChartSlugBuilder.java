@@ -107,7 +107,6 @@ public interface ChartSlugBuilder {
 
   /**
    * Sets the chart's settings from a JSON serialized string.
-   * TODO: add support for changing a single property in chartSettings
    *
    * @param chartSettings chart settings string
    * @return The builder.
@@ -115,8 +114,15 @@ public interface ChartSlugBuilder {
   ChartSlugBuilder setChartSettings(String chartSettings);
 
   /**
+   * Sets the chart's settings from a JSON serialized string.
+   *
+   * @param chartSettings chart settings string
+   * @return The builder.
+   */
+  ChartSlugBuilder setChartSettings(ChartSettings chartSettings);
+
+  /**
    * Sets the chart's attributes from a JSON serialized string.
-   * TODO: add support for changing a single property in chartAttributes
    *
    * @param chartAttributes chart settings string
    * @return The builder.

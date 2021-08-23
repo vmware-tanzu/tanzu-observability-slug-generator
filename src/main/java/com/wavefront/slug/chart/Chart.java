@@ -25,7 +25,7 @@ import lombok.Builder;
 @AllArgsConstructor
 @JsonPropertyOrder(alphabetic = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class Chart {
+public class Chart {
   @JsonProperty("id")
   @Builder.Default
   private final String id = "chart";
