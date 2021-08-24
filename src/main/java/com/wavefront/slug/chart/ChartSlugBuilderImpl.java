@@ -135,7 +135,7 @@ public class ChartSlugBuilderImpl implements ChartSlugBuilder {
   @Override
   public ChartSlugBuilder setChartSettings(ChartSettings chartSettings) {
     this.chartSettings = chartSettings;
-    return null;
+    return this;
   }
 
   @Override

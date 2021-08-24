@@ -114,7 +114,7 @@ public interface ChartSlugBuilder {
   ChartSlugBuilder setChartSettings(String chartSettings);
 
   /**
-   * Sets the chart's settings from a JSON serialized string.
+   * Sets the chart's settings from a ChartSettings objects.
    *
    * @param chartSettings chart settings string
    * @return The builder.

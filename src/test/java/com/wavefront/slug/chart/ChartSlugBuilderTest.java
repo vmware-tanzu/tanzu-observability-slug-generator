@@ -185,7 +185,7 @@ public class ChartSlugBuilderTest {
 
   @Test
   @Tag("Build")
-  @DisplayName("With point chart")
+  @DisplayName("With point chart using serialized JSON")
   public void testBuildWithPointChart() throws Exception {
     String slug = builder
         .setCustomerId("tsdb")
@@ -196,6 +196,26 @@ public class ChartSlugBuilderTest {
         .setChartSettings("{\"type\": \"scatterplot\"}")
         .addSource("New Query", "ts(test.metrics)")
         .build();
+
+    // verify
+    String expectedSlug = "_v02(c:(b:1,cs:(type:scatterplot),id:new-chart,n:'New Chart',ne:!t,s:!((n:'New Query',q:'ts(test.metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
+    assertThat(slug).as(message).isEqualTo(expectedSlug);
+  }
+
+  @Test
+  @Tag("Build")
+  @DisplayName("With point chart using chart settings objects")
+  public void testBuildWithPointChartUsingChartSettings() throws Exception {
+    String slug = builder
+            .setCustomerId("tsdb")
+            .setId("new-chart")
+            .setName("New Chart")
+            .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+            .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+            .setChartSettings(ChartSettings.builder().type("scatterplot").build())
+            .addSource("New Query", "ts(test.metrics)")
+            .build();
 
     // verify
     String expectedSlug = "_v02(c:(b:1,cs:(type:scatterplot),id:new-chart,n:'New Chart',ne:!t,s:!((n:'New Query',q:'ts(test.metrics)',qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
