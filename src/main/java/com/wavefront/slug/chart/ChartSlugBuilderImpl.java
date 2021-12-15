@@ -53,6 +53,7 @@ public class ChartSlugBuilderImpl implements ChartSlugBuilder {
   private String compare = "off";
   private String units = null;
   private int base = 1;
+  private String chartDescription = null;
   private ChartSettings chartSettings = null;
   private JsonNode chartAttributes = null;
 
@@ -123,6 +124,12 @@ public class ChartSlugBuilderImpl implements ChartSlugBuilder {
   @Override
   public ChartSlugBuilderImpl setBase(int base) {
     this.base = base;
+    return this;
+  }
+
+  @Override
+  public ChartSlugBuilder setDescription(String description) {
+    this.chartDescription = description;
     return this;
   }
 
@@ -226,6 +233,7 @@ public class ChartSlugBuilderImpl implements ChartSlugBuilder {
             .name(this.name)
             .units(this.units)
             .base(this.base)
+            .description(this.chartDescription)
             .chartSources(this.sources)
             .chartSettings(this.chartSettings)
             .chartAttributes(this.chartAttributes)

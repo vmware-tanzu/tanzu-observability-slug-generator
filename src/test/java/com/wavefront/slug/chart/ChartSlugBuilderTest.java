@@ -263,4 +263,22 @@ public class ChartSlugBuilderTest {
     String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
     assertThat(slug).as(message).isEqualTo(expectedSlug);
   }
+
+  @Test
+  @Tag("BuildAndEscape")
+  @DisplayName("With description.")
+  public void testBuildAndEscapeWithDescription() throws Exception {
+    String slug = builder
+        .setCustomerId("tsdb")
+        .setStart(new DateTime(2013, 7, 16, 4, 27, DateTimeZone.UTC))
+        .setEnd(new DateTime(2013, 7, 16, 6, 27, DateTimeZone.UTC))
+        .addSource("query", "World")
+        .setDescription("test chart")
+        .buildAndEscape();
+
+    // verify
+    String expectedSlug = "_v02(c:(b:1,d:'test%20chart',id:chart,n:Chart,ne:!t,s:!((n:query,q:World,qb:!n,qbe:!f)),smp:off),g:(c:off,d:7200,g:auto,s:1373948820),t:tsdb)";
+    String message = String.format("The expected URL should be %s while it is %s.", expectedSlug, slug);
+    assertThat(slug).as(message).isEqualTo(expectedSlug);
+  }
 }
