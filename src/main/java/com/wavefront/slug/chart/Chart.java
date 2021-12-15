@@ -60,4 +60,8 @@ public class Chart {
   @JsonProperty("ca")
   @Builder.Default
   private final JsonNode chartAttributes = null;
+
+  @JsonProperty("d")
+  @Builder.Default
+  private final String description = null;
 }

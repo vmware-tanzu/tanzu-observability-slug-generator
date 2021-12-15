@@ -106,6 +106,14 @@ public interface ChartSlugBuilder {
   ChartSlugBuilder setBase(int base);
 
   /**
+   * Sets the description of the chart.
+   *
+   * @param description chart description.
+   * @return The builder.
+   */
+  ChartSlugBuilder setDescription(String description);
+
+  /**
    * Sets the chart's settings from a JSON serialized string.
    *
    * @param chartSettings chart settings string
