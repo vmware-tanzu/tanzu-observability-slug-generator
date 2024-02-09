@@ -171,9 +171,40 @@ public class ChartSlugBuilderImpl implements ChartSlugBuilder {
   }
 
   @Override
+  public ChartSlugBuilderImpl addSource(String name, String query, boolean disabled, String queryType) {
+        this.sources.add(ChartSource.builder()
+                .queryName(name)
+                .query(query)
+                .disabled(disabled)
+                .queryType(queryType)
+                .build());
+        return this;
+    }
+
+    @Override
+    public ChartSlugBuilder addSource(String name, String query, boolean disabled, String queryBuilderSerialization,
+                                      boolean queryBuilderEnabled) {
+      this.sources.add(ChartSource.builder()
+                .queryName(name)
+                .query(query)
+                .disabled(disabled)
+                .queryBuilderSerialization(queryBuilderSerialization)
+                .queryBuilderEnabled(queryBuilderEnabled)
+                .build());
+        return this;
+    }
+
+  @Override
   public ChartSlugBuilderImpl addSource(String name, String query, boolean disabled, String queryBuilderSerialization,
-                                        boolean queryBuilderEnabled) {
-    this.sources.add(new ChartSource(name, query, disabled, queryBuilderSerialization, queryBuilderEnabled));
+                                        boolean queryBuilderEnabled, String queryType) {
+    this.sources.add(ChartSource.builder()
+            .queryName(name)
+            .query(query)
+            .disabled(disabled)
+            .queryBuilderSerialization(queryBuilderSerialization)
+            .queryBuilderEnabled(queryBuilderEnabled)
+            .queryType(queryType)
+            .build());
     return this;
   }
 

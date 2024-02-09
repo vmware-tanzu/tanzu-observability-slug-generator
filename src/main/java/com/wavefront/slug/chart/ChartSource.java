@@ -41,4 +41,7 @@ public class ChartSource {
   @JsonProperty("qbe")
   @Builder.Default
   private final boolean queryBuilderEnabled = false;
+
+  @JsonProperty("l")
+  private final String queryType;
 }

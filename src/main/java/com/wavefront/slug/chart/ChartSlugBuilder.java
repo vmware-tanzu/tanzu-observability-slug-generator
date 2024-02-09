@@ -159,6 +159,17 @@ public interface ChartSlugBuilder {
   /**
    * Add a new source query to the chart.
    *
+   * @param name     Name of the query.
+   * @param query    The query.
+   * @param disabled True if this query should be disabled (unchecked) in the chart.
+   * @param queryType WQL or PROMQL queryType
+   * @return The builder.
+   */
+  ChartSlugBuilder addSource(String name, String query, boolean disabled, String queryType);
+
+  /**
+   * Add a new source query to the chart.
+   *
    * @param name                      Name of the query.
    * @param query                     The query.
    * @param disabled                  True if this query should be disabled (unchecked) in the
@@ -169,6 +180,21 @@ public interface ChartSlugBuilder {
    */
   ChartSlugBuilder addSource(String name, String query, boolean disabled, String queryBuilderSerialization,
                              boolean queryBuilderEnabled);
+  /**
+   * Add a new source query to the chart.
+   *
+   * @param name                      Name of the query.
+   * @param query                     The query.
+   * @param disabled                  True if this query should be disabled (unchecked) in the
+   *                                  chart.
+   * @param queryBuilderSerialization Serialization of the querybuilder
+   * @param queryBuilderEnabled       True if the querybuilder is enabled
+   * @param queryType                 WQL or PROMQL queryType
+   * @return The builder.
+   */
+
+  ChartSlugBuilder addSource(String name, String query, boolean disabled, String queryBuilderSerialization,
+                             boolean queryBuilderEnabled, String queryType);
 
   /**
    * Add a host that is focused upon when the page loads. The chart must contain queries that yield
