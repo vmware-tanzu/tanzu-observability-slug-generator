@@ -3,7 +3,7 @@
 
     <groupId>com.wavefront</groupId>
     <artifactId>slug-generator</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Tanzu Observability Slug Generator</name>
@@ -31,7 +31,7 @@
         <developerConnection>scm:git:git@github.com:vmware-tanzu/tanzu-observability-slug-generator.git
         </developerConnection>
         <url>git@github.com:vmware-tanzu/tanzu-observability-slug-generator.git</url>
-        <tag>slug-generator-1.2.4</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
